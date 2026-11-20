@@ -4,7 +4,6 @@
 
 
 from datetime import datetime
-from io import TextIOWrapper
 from os import chdir, mkdir, path
 from pathlib import Path
 from typing import Annotated
@@ -35,15 +34,15 @@ def cleanup(
 
     current_log_filename = logs.generate_log_file_name()
 
-    with open(f".logs/{current_log_filename}", "w") as log_file:
-        log_file.write(f"Cleanup started at {datetime.now()}\n")
-        log_file.write(f"Removing files older than {days} days...\n")
+    with open(f".logs/{current_log_filename}", "w") as log:
+        logs.write(log, f"Cleanup started at {datetime.now()}\n")
+        logs.write(log, f"Removing files older than {days} days...\n")
 
         to_delete = scan_directory(days)
         print(f"[green]Found {len(to_delete)} files to delete.[/]")
-        log_file.write(f"Found {len(to_delete)} files to delete.\n")
-        log_file.write("Candidates for deletion: \n")
-        log_file.writelines(f"{file}\n" for file in to_delete)
+        logs.write(log, f"Found {len(to_delete)} files to delete.\n")
+        logs.write(log, "Candidates for deletion: \n")
+        logs.writelines(log, [f"    {file}\n" for file in to_delete])
 
         print(to_delete)
 
