@@ -1,0 +1,24 @@
+[project]
+name = "delevetus"
+version = "0.1.0"
+description = "Scans and delete old files after a period of time"
+readme = "readme.md"
+authors = [{ name = "Kelvin Chin", email = "chinkaiwen_35@outlook.com" }]
+requires-python = ">=3.15"
+dependencies = ["typer>=0.29.2"]
+
+[project.scripts]
+delevetus = "delevetus.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.workspace]
+members = ["."]
+
+[tool.uv.sources]
+delevetus = { workspace = true }
+
+[dependency-groups]
+dev = ["delevetus"]
