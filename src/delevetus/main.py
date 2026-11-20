@@ -39,12 +39,16 @@ def cleanup(
         log_file.write(f"Cleanup started at {datetime.now()}\n")
         log_file.write(f"Removing files older than {days} days...\n")
 
-        to_delete = scan_directory(days, log_file)
+        to_delete = scan_directory(days)
         print(f"[green]Found {len(to_delete)} files to delete.[/]")
+        log_file.write(f"Found {len(to_delete)} files to delete.\n")
+        log_file.write("Candidates for deletion: \n")
+        log_file.writelines(f"{file}\n" for file in to_delete)
+
         print(to_delete)
 
 
-def scan_directory(days: int, log_file: TextIOWrapper) -> list[Path]:
+def scan_directory(days: int) -> list[Path]:
     """
     Scan the directory and return a list of files that are older than the specified number of days.
     """
@@ -52,8 +56,18 @@ def scan_directory(days: int, log_file: TextIOWrapper) -> list[Path]:
     keep_dirs: list[Path] = []
     work_dir = Path(path.abspath("."))
 
-    for root, _dirs, files in work_dir.walk():
+    for root, dirs, files in work_dir.walk():
         print(f"[blue]Scanning {root}...[/]")
+
+        if root.name == ".logs" and root.parent == work_dir:
+            print(f"[yellow]Skipping {root}...[/]")
+            dirs.clear()  # Don't traverse into the .logs directory
+            continue
+
+        if (root / ".keep").exists():
+            print(f"[yellow]Skipping {root}...[/]")
+            dirs.clear()  # Don't traverse into directories with a .keep file
+            continue
 
         for file in files:
             file_path = root / file
