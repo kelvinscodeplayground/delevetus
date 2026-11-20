@@ -5,7 +5,10 @@ description = "Scans and delete old files after a period of time"
 readme = "readme.md"
 authors = [{ name = "Kelvin Chin", email = "chinkaiwen_35@outlook.com" }]
 requires-python = ">=3.15"
-dependencies = ["typer>=0.29.2"]
+dependencies = [
+    "rich>=15.0.0",
+    "typer>=0.29.2",
+]
 
 [project.scripts]
 delevetus = "delevetus.main:main"

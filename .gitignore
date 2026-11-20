@@ -12,3 +12,6 @@ wheels/
 # Editor related files
 /.vscode/
 /.zed/
+
+# Working files
+/test

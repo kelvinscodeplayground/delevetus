@@ -34,6 +34,7 @@ name = "delevetus"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "rich" },
     { name = "typer" },
 ]
 
@@ -43,7 +44,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "typer", specifier = ">=0.29.2" }]
+requires-dist = [
+    { name = "rich", specifier = ">=15.0.0" },
+    { name = "typer", specifier = ">=0.29.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [{ name = "delevetus", editable = "." }]
